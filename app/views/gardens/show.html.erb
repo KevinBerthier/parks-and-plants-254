@@ -13,6 +13,12 @@
           <%= plant.name %>
           <%= link_to "+", plant_path(plant), method: :delete, data: { confirm: "Are you sure?" }, class: "card-remove-link" %>
         </div>
+        <div class="card-tags">
+          <% plant.tags.each do |tag| %>
+            <span><%= tag.name %></span>
+          <% end %>
+          <%= link_to '+', new_plant_plant_tag_path(plant) %>
+        </div>
 
       </div>
     <% end %>
@@ -22,6 +28,7 @@
       <%= simple_form_for([@garden, @plant]) do |f| %>
         <%= f.input :name %>
         <%= f.input :image_url %>
+        <%= f.input :tag_ids, collection: Tag.all, input_html: { multiple: true }, label: 'Tags' %>
         <%= f.button :submit, class: 'btn-primary btn-block' %>
       <% end %>
     </div>

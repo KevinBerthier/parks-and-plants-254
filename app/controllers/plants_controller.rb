@@ -7,6 +7,10 @@ class PlantsController < ApplicationController
     @plant.garden = @garden
 
     if @plant.save
+      tag_ids = params[:plant][:tag_ids].reject { |id| id == '' }
+      tag_ids.each do |tag_id|
+        PlantTag.create(plant: @plant, tag_id: tag_id)
+      end
       redirect_to @garden
     else
       render 'gardens/show'
